@@ -126,7 +126,6 @@ layout: "en"
          temp = {},
          text = typeField.value,
          tlen = text.length;
-    console.log("REPAINT");
      for(var i=0; i < tlen; i++){
 
        var key = text.charAt(i);
@@ -137,11 +136,13 @@ layout: "en"
          var coord;
          coord = app.COORDINATES[app.config.layout][key];
          if(coord){
-           console.log(coord.length);
-           var joined = coord.join(";");
-           if(!temp[joined])
-             temp[joined] = 0;
-           temp[joined] += 1;
+           for(var s = 0; s < coord.length; s += 2)
+           {
+             var joined = coord.slice(s, s+2).join(";");
+             if(!temp[joined])
+               temp[joined] = 0;
+             temp[joined] += 1;
+           }
          }
        }
      }
@@ -174,7 +175,6 @@ layout: "en"
        {
          for (var i = 0; i < coord.length; i+=2)
          {
-            console.log(coord.length, coord.length/2, i, coord.slice(i, i+2));
             coord && app.heatmap.store.addDataPoint.apply(app.heatmap.store,coord.slice(i, i+2));
          }
        }
